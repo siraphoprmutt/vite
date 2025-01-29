@@ -6,11 +6,29 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "npm run build && vite preview",
+    "deploy": "vite build && gh-pages -d dist",
+    "push": "git add . && git commit -m \"update\" && git push"
   },
   "devDependencies": {
     "sass": "^1.66.1",
     "vite": "^4.4.5",
     "vite-plugin-inspect": "^0.7.38"
-  }
+  },
+  "dependencies": {
+    "gh-pages": "^6.3.0"
+  },
+  "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/siraphoprmutt/vite.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/siraphoprmutt/vite/issues"
+  },
+  "homepage": "https://github.com/siraphoprmutt/vite#readme",
+  "description": ""
 }

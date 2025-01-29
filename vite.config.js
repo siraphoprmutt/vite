@@ -1,11 +1,17 @@
 import { defineConfig } from "vite";
 import Inspect from "vite-plugin-inspect";
-import { resolve, relative } from "path";
 import fs from "fs";
+import { resolve, relative } from "path";
 
 const projectRoot = resolve(__dirname);
 const distDir = resolve(__dirname, "dist");
 const entries = {};
+
+// ✅ ลบ dist เฉพาะตอน build เท่านั้น
+if (process.argv.includes("build") && fs.existsSync(distDir)) {
+  fs.rmSync(distDir, { recursive: true, force: true });
+  console.log("🗑️ Removed existing dist folder (before build)");
+}
 
 // ✅ ค้นหา index.html ในโฟลเดอร์หลัก
 fs.readdirSync(projectRoot, { withFileTypes: true }).forEach((dirent) => {
@@ -25,10 +31,12 @@ entries["index"] = "index.html";
 console.log("✅ Generated Pages:", entries);
 
 export default defineConfig({
-  base: "/vite/", // ✅ เปลี่ยน base ให้ตรงกับ GitHub Repo
+  base: "/vite/",
   plugins: [Inspect()],
   build: {
     outDir: "dist",
+    emptyOutDir: true, // ✅ ให้ Vite ลบ dist อัตโนมัติ
+    assetsDir: "assets",
     rollupOptions: {
       input: entries,
     },
