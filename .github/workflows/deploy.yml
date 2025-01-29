@@ -3,7 +3,10 @@ name: Deploy Vite App to GitHub Pages
 on:
   push:
     branches:
-      - main # เปลี่ยนเป็น branch ที่ใช้ deploy
+      - main # เปลี่ยนเป็น branch หลักของคุณ
+
+permissions:
+  contents: write # ✅ ให้สิทธิ์ GitHub Actions Push ได้
 
 jobs:
   deploy:
@@ -12,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          persist-credentials: false
+          persist-credentials: false # ✅ ปิด credentials เดิม
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -30,3 +33,4 @@ jobs:
         with:
           branch: gh-pages
           folder: dist
+          token: ${{ secrets.GITHUB_TOKEN }} # ✅ ใช้ Built-in GitHub Token
